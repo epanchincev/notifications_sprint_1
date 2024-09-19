@@ -3,9 +3,11 @@ services:
     image: rabbitmq:3-management-alpine
     volumes:
         - rabbit_volume:/var/lib/rabbitmq/
-    expose:
-        - "5672"
-        - "15672"
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+    env_file:
+      - ./.env
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 5s
@@ -24,8 +26,8 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
-    expose:
-      - "5432"
+    ports:
+      - "5432:5432"
 
 volumes:
   db_volume:
