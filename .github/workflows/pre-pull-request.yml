@@ -1,0 +1,38 @@
+name: code-quality
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install libs
+        run: |
+          pip install flake8 flake8-html mypy lxml
+
+      - name: Lint with flake8
+        run: |
+          flake8  .
+
+      - name: Lint with mypy
+        run: |
+          mypy notifications_admin/src/
+          mypy notifications_api/src/
+          mypy notifications_worker/src/
+          mypy im_server/src/
+  
