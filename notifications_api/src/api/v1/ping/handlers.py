@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from api.v1.ping.schemas import PingResponse
-from api.v1.schemas import ApiResponse
+from src.api.v1.ping.schemas import PingResponse
+from src.api.v1.schemas import ApiResponse
 
 router = APIRouter()
 
