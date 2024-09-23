@@ -81,3 +81,19 @@ async def delete_template(
     await service.delete(template_id)
 
     return
+
+
+@router.patch(
+    "/{template_id}",
+    summary="Обновляет шаблон по id",
+    response_model=TemplateDB,
+)
+async def update_template(
+    request: Request,
+    template_id: UUID4,
+    template_in: TemplateCreateOrUpdate,
+    service: ITemplateService = Depends(get_template_service),
+):
+    template = await service.update(template_id, **template_in.model_dump())
+
+    return template
