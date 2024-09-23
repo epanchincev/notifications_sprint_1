@@ -30,7 +30,7 @@ class PreBase:
         """Именем таблицы будет название модели в нижнем регистре."""
         return cls.__name__.lower()
 
-    uuid: Mapped[str] = mapped_column(UUID, primary_key=True, default=uuid4)
+    id: Mapped[str] = mapped_column(UUID, primary_key=True, default=uuid4)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=datetime.now,
