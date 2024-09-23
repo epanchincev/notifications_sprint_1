@@ -33,9 +33,7 @@ class Notification(Base):
     template_id: Mapped[str] = mapped_column(
         ForeignKey(Template.id, ondelete="CASCADE")
     )
-    template: Mapped[Template] = relationship(
-        back_populates="notifications",
-    )
+    template: Mapped[Template] = relationship()
 
     def __repr__(self):
         return f"<Notification {self.title}>"

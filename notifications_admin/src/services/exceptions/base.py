@@ -1,11 +1,10 @@
 from dataclasses import dataclass
-
-from fastapi import status
+from http import HTTPStatus
 
 
 @dataclass
 class BaseServiceException(Exception):
-    status_code: status = status.HTTP_500_INTERNAL_SERVER_ERROR
+    status_code: int = HTTPStatus.INTERNAL_SERVER_ERROR
 
     @property
     def message(self) -> str:

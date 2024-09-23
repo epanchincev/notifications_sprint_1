@@ -1,3 +1,5 @@
+from typing import TypeVar
+
 from sqlalchemy import (
     String,
     Text,
@@ -11,13 +13,16 @@ from sqlalchemy.orm import (
 from db.postgres import Base
 
 
+Notification = TypeVar("Notification")
+
+
 class Template(Base):
     """Модель Шаблона."""
 
     name: Mapped[str] = mapped_column(
-        String(255), nullable=False,
+        String(256), nullable=False,
     )
-    subject: Mapped[str] = mapped_column(String(255))
+    subject: Mapped[str] = mapped_column(String(256), nullable=True)
     content: Mapped[str] = mapped_column(
         Text, nullable=False,
     )
