@@ -231,7 +231,7 @@ sequenceDiagram
 **Тело запроса:**
 ```json
 {
-  "recipient_id": "string",
+  "recipients": ["user_id1", "user_id2"],
   "template_id": "string",
   "parameters": {
     "key1": "value1",
