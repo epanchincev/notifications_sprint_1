@@ -29,5 +29,15 @@ class Settings(BaseSettings):
     db_database: str = "database"
     db_schema: str = "notifications"
 
+    logger_filename: str = ...
+    logger_filedir: str = ...
+    logger_maxbytes: int = 15000000
+    logger_mod: str = 'a'
+    logger_backup_count: int = 5
+
+    @property
+    def logger_file(self) -> str:
+        return f"{self.logger_filedir}/{self.logger_filename}"
+
 
 settings = Settings()
