@@ -29,11 +29,21 @@ class Settings(BaseSettings):
     db_database: str = "database"
     db_schema: str = "notifications"
 
+    notification_service_host: str = "notification-service"
+    notification_service_port: int = 8080
+    notification_endpoint: str = "/api/v1/notifications/send"
+
     logger_filename: str = ...
     logger_filedir: str = ...
     logger_maxbytes: int = 15000000
     logger_mod: str = 'a'
     logger_backup_count: int = 5
+
+    @property
+    def notiification_service_url(self) -> str:
+        return (f"http://{self.notification_service_host}:"
+                f"{self.notification_service_port}/"
+                f"{self.notification_endpoint}")
 
     @property
     def logger_file(self) -> str:
