@@ -159,7 +159,7 @@ class SANotificationRepository(INotificationRepository):
         await self.session.commit()
 
 
-def get_Notification_repository(
+def get_notification_repository(
     session: AsyncSession = Depends(get_async_session),
 ) -> INotificationRepository:
     return SANotificationRepository(session)
