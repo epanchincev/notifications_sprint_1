@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from pydantic_settings import BaseSettings
 
 
@@ -20,6 +21,8 @@ class Settings(BaseSettings):
     RABBITMQ_USER: str
     RABBITMQ_PASSWORD: str
     RABBITMQ_QUEUE: str
+    LOGGER_NAME: str
+    LOG_LEVEL: str = "INFO"
 
     @property
     def rabbit_url(self) -> str:
