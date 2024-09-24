@@ -1,12 +1,12 @@
 from http import HTTPStatus
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from services.exceptions.base import BaseServiceException
 
 
 @dataclass
 class TemplateNotExistException(BaseServiceException):
-    template_id: str = field()
+    template_id: str = ''
     status_code: int = HTTPStatus.UNPROCESSABLE_ENTITY
 
     @property
