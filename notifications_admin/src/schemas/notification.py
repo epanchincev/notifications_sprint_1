@@ -33,17 +33,24 @@ class NotificationCreate(NotificationBase):
     def check_delay(self):
         if (
             self.type == NotificationType.delayed
-            and self.delay_in_minutes is None
+            and not self.delay_in_minutes
         ):
             raise ValueError(
                 "delay_in_minutes is required for delayed notifications",
+            )
+        if (
+            self.type == NotificationType.insta
+            and self.delay_in_minutes
+        ):
+            raise ValueError(
+                "delay_in_minutes: insta notifications cannot be delayed",
             )
 
         return self
 
     @model_validator(mode="after")
     def check_schedule(self):
-        if self.type == NotificationType.scheduled and self.schedule is None:
+        if self.type == NotificationType.scheduled and not self.schedule:
             raise ValueError(
                 "schedule is required for scheduled notifications"
             )
@@ -58,3 +65,20 @@ class NotificationDB(NotificationBase):
     status: str
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class NotificationFilters(BaseModel):
+    """Фильтры для получения Уведомлений"""
+
+    status: NotificationStatus | None = None
+    type: NotificationType | None = None
+    page: int = Field(1, ge=1)
+    per_page: int = Field(20, ge=1)
+
+
+class NotificationMulti(BaseModel):
+
+    notifications: list[NotificationDB]
+    total: int
+    page: int
+    per_page: int
