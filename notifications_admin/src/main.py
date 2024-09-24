@@ -9,19 +9,15 @@ from fastapi import (
 
 from api.router import router as api_router
 from services.exceptions.base import BaseServiceException
-from core.logger import setup_root_logger
 from core.config import settings
 from utils import send_notification
-
-
-setup_root_logger()
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     send_notification.session = ClientSession()
     yield
-    send_notification.session.close()
+    await send_notification.session.close()
 
 
 app = FastAPI(
