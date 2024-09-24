@@ -94,9 +94,11 @@ class NotificationService(INotificationService):
 
         template_params = set(template.parameters)
 
-        if len(template_params & set(parameters)) == len(template_params):
+        if len(template_params & set(parameters)) != len(template_params):
             raise TemplateNotFilledException()
-
+        channel = template.type
+        recepients = [str(r) for r in recepients]
+        template_id = str(template_id)
         notification = await self.notification_rep.create(
             template_id, recepients, parameters, name,
             type, schedule, delay_in_minutes,
@@ -109,7 +111,7 @@ class NotificationService(INotificationService):
                     "recepients": recepients,
                     "template_id": template_id,
                     "parameters": parameters,
-                    "channel": template.type,
+                    "channel": channel,
                 },
                 delay_in_minutes=delay_in_minutes,
             )
