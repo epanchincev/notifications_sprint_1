@@ -23,7 +23,7 @@ class Notification(Base):
     recepients: Mapped[list] = mapped_column(JSON)
     parameters: Mapped[dict] = mapped_column(JSON)
     status: Mapped[str] = mapped_column(
-        String(64), nullable=False, default="created",
+        String(64), nullable=False, default="in_progress",
     )
     delay_in_minutes: Mapped[int] = mapped_column(
         INTEGER,
@@ -31,7 +31,7 @@ class Notification(Base):
     type: Mapped[str] = mapped_column(String(64))
     schedule: Mapped[str] = mapped_column(String(64))
     template_id: Mapped[str] = mapped_column(
-        ForeignKey(Template.id, ondelete="CASCADE")
+        ForeignKey(Template.id),
     )
     template: Mapped[Template] = relationship()
 
