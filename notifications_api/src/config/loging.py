@@ -11,7 +11,7 @@ handler = logging.StreamHandler()
 handler.setLevel(settings.LOG_LEVEL)
 
 formatter = logging.Formatter(
-    '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    '{"time": "%(asctime)-s", "level": "%(levelname)-s", "message": "%(message)s"}',
 )
 handler.setFormatter(formatter)
 
