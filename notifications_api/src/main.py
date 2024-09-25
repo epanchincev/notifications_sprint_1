@@ -7,7 +7,7 @@ from fastapi import (
 )
 
 import aio_pika
-from src.api.v1.routers import router as api_router
+from src.api.routers import router as api_router
 from src.config.loging import get_logger
 from src.config.settings import settings
 from src.errors.base import ServiceException

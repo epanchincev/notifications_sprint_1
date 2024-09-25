@@ -14,13 +14,11 @@ from src.usecases.notification import (
 )
 
 
-router = APIRouter(
-    prefix="/register-notifications",
-)
+router = APIRouter()
 
 
 @router.post(
-    '/',
+    '/send-notification',
     response_model=ApiResponse[NotificationOutSchema],
     description="Register a new notification in the queue",
 )
