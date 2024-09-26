@@ -1,14 +1,15 @@
-from logging import getLogger
 from typing import Any
 
 from aiohttp import ClientSession
 from asyncio import sleep
 
+from core.logger import get_logger
+
 # from core.config import settings
 
 session: ClientSession | None = None
 
-logger = getLogger(__name__)
+logger = get_logger()
 
 
 async def send_notification(

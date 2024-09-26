@@ -38,6 +38,8 @@ class Settings(BaseSettings):
     logger_maxbytes: int = 15000000
     logger_mod: str = 'a'
     logger_backup_count: int = 5
+    logger_name: str = 'not-admin'
+    log_level: str = "INFO"
 
     @property
     def notiification_service_url(self) -> str:
