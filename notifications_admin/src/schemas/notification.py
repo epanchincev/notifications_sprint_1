@@ -58,6 +58,11 @@ class NotificationCreate(NotificationBase):
         return self
 
 
+class UpdateNotificationStatus(BaseModel):
+
+    status: NotificationStatus
+
+
 class NotificationDB(NotificationBase):
 
     id: UUID4

@@ -32,6 +32,14 @@ class INotificationService(ABC):
         """Get Notifications, and total count"""
 
     @abstractmethod
+    async def update_status(
+        self,
+        notification_id: str,
+        new_status: str,
+    ) -> Notification:
+        """Update notification status"""
+
+    @abstractmethod
     async def create(
         self,
         background_tasks: BackgroundTasks,
@@ -75,6 +83,18 @@ class NotificationService(INotificationService):
         )
 
         return templates, count
+
+    async def update_status(
+        self,
+        notification_id: str,
+        new_status: str,
+    ) -> Notification:
+        notification = await self.get(notification_id)
+        notification = await self.notification_rep.update_status(
+            notification, new_status,
+        )
+
+        return notification
 
     async def create(
         self,

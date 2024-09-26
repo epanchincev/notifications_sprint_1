@@ -47,6 +47,14 @@ class INotificationRepository(ABC):
         """Create a new Notification"""
 
     @abstractmethod
+    async def update_status(
+        self,
+        notification: Notification,
+        new_status: str,
+    ) -> Notification:
+        """Update Notification status"""
+
+    @abstractmethod
     async def update(
         self,
         notification: Notification,
@@ -123,6 +131,18 @@ class SANotificationRepository(INotificationRepository):
             schedule=schedule,
             delay_in_minutes=delay_in_minutes,
         )
+        self.session.add(notification)
+        await self.session.commit()
+        await self.session.refresh(notification)
+
+        return notification
+
+    async def update_status(
+        self,
+        notification: Notification,
+        new_status: str,
+    ) -> Notification:
+        notification.status = new_status
         self.session.add(notification)
         await self.session.commit()
         await self.session.refresh(notification)

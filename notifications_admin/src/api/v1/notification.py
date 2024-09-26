@@ -12,6 +12,7 @@ from schemas.notification import (
     NotificationFilters,
     NotificationDB,
     NotificationMulti,
+    UpdateNotificationStatus,
 )
 
 
@@ -76,7 +77,7 @@ async def create_notification(
 
 
 @router.delete(
-    "/{template_id}",
+    "/{notification_id}",
     summary="Удаляет уведомление по id",
     status_code=HTTPStatus.NO_CONTENT,
 )
@@ -88,3 +89,20 @@ async def delete_template(
     await service.delete(template_id)
 
     return
+
+
+@router.patch(
+    "/{notification_id}",
+    summary="Обновляет статус уведомления по id",
+    response_model=NotificationDB,
+)
+async def update_notification_status(
+    request: Request,
+    notification_id: UUID4,
+    status: UpdateNotificationStatus,
+    service: INotificationService = Depends(get_notification_service),
+
+):
+    notification = await service.update_status(notification_id, status.status)
+
+    return notification
