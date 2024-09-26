@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 import httpx
 from src.config.settings import settings
+from src.models.template import NotificationTemplate
 from src.services.errors import (
     BadResponseCodeTemplateService,
     TemplateServiceException,
@@ -15,7 +16,7 @@ from src.services.errors import (
 class ITemplateService(ABC):
 
     @abstractmethod
-    async def get_template(self, action: str) -> str:
+    async def get_template(self, action: str) -> NotificationTemplate:
         """Returns the template for the given action."""
 
 
@@ -23,17 +24,17 @@ class ITemplateService(ABC):
 class TemplateService(ITemplateService):
     SERVICE_URL: str = settings.template_service_url
 
-    async def get_template(self, action: str) -> str:
+    async def get_template(self, action: str) -> NotificationTemplate:
         try:
             async with httpx.AsyncClient() as client:
-                response = await client.get(f"{self.SERVICE_URL}/api/v1/admin/templates/{action}")
+                response = await client.get(f"{self.SERVICE_URL}/api/v1/admin/templates/static/{action}")
                 if not response.status_code == 200:
                     raise BadResponseCodeTemplateService(
                         status_code=response.status_code,
                     )
 
                 # TODO: Определить схему для респонса
-                return response.json()
+                return NotificationTemplate(response.json())
         except BadResponseCodeTemplateService:
             raise
         except Exception as e:

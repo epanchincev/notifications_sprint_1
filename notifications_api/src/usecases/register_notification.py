@@ -25,7 +25,7 @@ class SendRegisterNotificationUseCase:
         template = await self.template_service.get_template(action="register")
         notification = NotificationModel(
             recipients=[data.user_id],
-            template_id=template.template_id,
+            template_id=template.id,
             channel=data.channel,
 
         )
