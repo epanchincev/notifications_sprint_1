@@ -2,6 +2,14 @@ from abc import (
     ABC,
     abstractmethod,
 )
+from dataclasses import dataclass
+
+import httpx
+from src.config.settings import settings
+from src.services.errors import (
+    BadResponseCodeTemplateService,
+    TemplateServiceException,
+)
 
 
 class ITemplateService(ABC):
@@ -11,12 +19,30 @@ class ITemplateService(ABC):
         """Returns the template for the given action."""
 
 
+@dataclass
 class TemplateService(ITemplateService):
+    SERVICE_URL: str = settings.template_service_url
 
     async def get_template(self, action: str) -> str:
-        # Implementation here
-        raise NotImplementedError
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(f"{self.SERVICE_URL}/api/v1/admin/templates/{action}")
+                if not response.status_code == 200:
+                    raise BadResponseCodeTemplateService(
+                        status_code=response.status_code,
+                    )
+
+                # TODO: Определить схему для респонса
+                return response.json()
+        except BadResponseCodeTemplateService:
+            raise
+        except Exception as e:
+            raise TemplateServiceException(
+                main_error=e,
+            ) from e
 
 
 def get_template_service() -> ITemplateService:
-    return TemplateService()
+    return TemplateService(
+        SERVICE_URL=settings.template_service_url,
+    )

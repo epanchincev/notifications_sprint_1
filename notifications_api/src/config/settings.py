@@ -23,10 +23,15 @@ class Settings(BaseSettings):
     RABBITMQ_QUEUE: str
     LOGGER_NAME: str
     LOG_LEVEL: str = "INFO"
+    TEMPLATE_SERVICE: str
 
     @property
     def rabbit_url(self) -> str:
         return f"amqp://{self.RABBITMQ_USER}:{self.RABBITMQ_PASSWORD}@{self.RABBITMQ_HOST}:{self.RABBITMQ_PORT}/"
+
+    @property
+    def template_service_url(self) -> str:
+        return f"http://{self.TEMPLATE_SERVICE}:{8000}"
 
 
 settings = Settings()

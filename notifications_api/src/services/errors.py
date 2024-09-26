@@ -10,3 +10,19 @@ class UnexpectedProducerError(ServiceException):
     @property
     def message(self) -> str:
         return "An unexpected error occurred while producing the message"
+
+
+@dataclass
+class TemplateServiceException(UnexpectedProducerError):
+
+    @property
+    def message(self) -> str:
+        return "An error occurred while retrieving the template"
+
+
+@dataclass
+class BadResponseCodeTemplateService(ServiceException):
+
+    @property
+    def message(self) -> str:
+        return f"The response code from the template service is {self.status_code}."
