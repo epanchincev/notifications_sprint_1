@@ -20,6 +20,10 @@ class ITemplateRepository(ABC):
         """Get template by id"""
 
     @abstractmethod
+    async def get_by_name(self, name: str) -> Template:
+        """Get template by name"""
+
+    @abstractmethod
     async def get_multiple(
         self,
         type: str | None,
@@ -64,6 +68,13 @@ class SATemplateRepository(ITemplateRepository):
         template = await self.session.execute(
             select(Template).where(Template.id == id)
         )
+        return template.scalar_one_or_none()
+
+    async def get_by_name(self, name: str) -> Template:
+        template = await self.session.execute(
+            select(Template).where(Template.name == name)
+        )
+
         return template.scalar_one_or_none()
 
     async def get_count(self, type: str | None) -> int:

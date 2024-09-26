@@ -97,3 +97,18 @@ async def update_template(
     template = await service.update(template_id, **template_in.model_dump())
 
     return template
+
+
+@router.get(
+    "/static/{name}",
+    summary="Получить статический шаблон по имени",
+    response_model=TemplateDB,
+)
+async def get_static_template(
+    request: Request,
+    name: str,
+    service: ITemplateService = Depends(get_template_service),
+):
+    template = await service.get_by_name(name)
+
+    return template

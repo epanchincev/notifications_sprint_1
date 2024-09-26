@@ -5,6 +5,9 @@ from fastapi import Depends
 
 from models import Template
 from services.exceptions.not_found import NotFoundException
+from services.exceptions.template_name_already_in_use import (
+    TemplateNameAlreadyInUseException,
+)
 from repositories.template import ITemplateRepository, get_template_repository
 
 
@@ -22,6 +25,10 @@ class ITemplateService(ABC):
         per_page: int | None = 20,
     ) -> tuple[list[Template], int]:
         """Get all templates, and total count"""
+
+    @abstractmethod
+    async def get_by_name(self, name: str) -> Template:
+        """Get template by name"""
 
     @abstractmethod
     async def create(
@@ -62,6 +69,13 @@ class TemplateSevice(ITemplateService):
 
         return template
 
+    async def get_by_name(self, name: str) -> Template:
+        template = await self.template_rep.get_by_name(name)
+        if not template:
+            raise NotFoundException(instance_name="Template")
+
+        return template
+
     async def get_multiple(
         self,
         type: str | None,
@@ -81,6 +95,8 @@ class TemplateSevice(ITemplateService):
         content: str,
         parameters: list[str],
     ) -> Template:
+        self._check_name(name)
+
         return await self.template_rep.create(
             name, type, subject,
             content, parameters,
@@ -95,6 +111,7 @@ class TemplateSevice(ITemplateService):
         content: str,
         parameters: list[str],
     ) -> Template:
+        self._check_name(name)
         template = await self.get(id)
         template = await self.template_rep.update(
             template, name, str(type),
@@ -106,6 +123,11 @@ class TemplateSevice(ITemplateService):
     async def delete(self, id: str) -> None:
         template = await self.get(id)
         await self.template_rep.delete(template)
+
+    async def _check_name(self, name: str) -> None:
+        template = await self.template_rep.get_by_name(name)
+        if template:
+            raise TemplateNameAlreadyInUseException()
 
 
 def get_template_service(
