@@ -20,7 +20,7 @@ class Template(Base):
     """Модель Шаблона."""
 
     name: Mapped[str] = mapped_column(
-        String(256), nullable=False,
+        String(256), nullable=False, unique=True,
     )
     subject: Mapped[str] = mapped_column(String(256), nullable=True)
     content: Mapped[str] = mapped_column(

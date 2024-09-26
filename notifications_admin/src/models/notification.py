@@ -3,6 +3,8 @@ from sqlalchemy import (
     JSON,
     INTEGER,
     ForeignKey,
+    ARRAY,
+    UUID,
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -20,7 +22,7 @@ class Notification(Base):
     name: Mapped[str] = mapped_column(
         String(255), nullable=False,
     )
-    recepients: Mapped[list] = mapped_column(JSON)
+    recepients: Mapped[list] = mapped_column(ARRAY(UUID))
     parameters: Mapped[dict] = mapped_column(JSON)
     status: Mapped[str] = mapped_column(
         String(64), nullable=False, default="in_progress",
