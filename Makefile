@@ -1,7 +1,7 @@
 DC = docker-compose
 DC_FILE = infra/docker-compose.yml
 DC_DEV_FILE = infra/docker-compose-dev.yml
-UP_PARAMS = up -d --build
+UP_PARAMS = up -d --build rabbit notifications-admin
 LOG_PARAMS = logs -f
 
 .PHONY: up
