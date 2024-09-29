@@ -1,17 +1,16 @@
-# LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-LOG_FORMAT = (
-    '{"time": "%(asctime)-s", "level": "%(levelname)-s", "message": "%(message)s"}'
-)
-LOG_LEVEL = "DEBUG"
+import logging
+from logging import config as logging_config
+
+from core.config import settings
 
 LOG_CONFIG = {
     "version": 1,
     "formatters": {
         "json": {
-            "format": LOG_FORMAT,
+            "format": '{"time": "%(asctime)-s", "level": "%(levelname)-s", "message": "%(message)s"}',
         },
         "default": {
-            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            "format": "%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -35s %(lineno) -5d: %(message)s",
         },
     },
     "handlers": {
@@ -22,9 +21,13 @@ LOG_CONFIG = {
         },
         "file": {
             "class": "logging.FileHandler",
-            "filename": "/var/log/fetcher/fetcher-app.log",
+            "filename": settings.logger_filename,
             "formatter": "json",
         },
     },
-    "root": {"level": LOG_LEVEL, "handlers": ["console", "file"]},
+    "root": {"level": settings.log_level, "handlers": ["console", "file"]},
 }
+
+logging_config.dictConfig(LOG_CONFIG)
+
+logger = logging.getLogger(settings.logger_name)

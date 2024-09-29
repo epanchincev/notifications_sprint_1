@@ -1,13 +1,16 @@
-from abc import ABC
-from enum import StrEnum
+from abc import ABC, abstractmethod
+from typing import Any
 
-
-class NotificationType(StrEnum):
-    email = "email"
-    sms = "sms"
-    push = "push"
+from models.notification import Notification
 
 
 class INotice(ABC):
-    type: NotificationType
-    pass
+    type: str
+
+    @abstractmethod
+    def verified(self, msg: Notification) -> bool:
+        pass
+
+    @abstractmethod
+    def processing(self, msg: Notification) -> Any:
+        pass

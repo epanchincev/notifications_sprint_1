@@ -1,9 +1,18 @@
-from pydantic import BaseModel, ConfigDict, Field, EmailStr
-from handlers.notice import NotificationType
+from pydantic import BaseModel, ConfigDict, Field
+from enum import StrEnum
+
+
+class NotificationType(StrEnum):
+    email = "email"
+    sms = "sms"
+    push = "push"
 
 
 class Notification(BaseModel):
-    """Модель сообщения"""
+    model_config = ConfigDict(
+        from_attributes=True, arbitrary_types_allowed=True, populate_by_name=True
+    )
+
     notification_id: str = Field(max_length=256)
     recipient_id: str = Field(max_length=256)
     channel: NotificationType
