@@ -302,11 +302,8 @@ sequenceDiagram
   "notification_id": "string",
   "recipient_id": "string",
   "channel": "email|sms|push",
-  "content": "string",
-  "metadata": {
-    "campaign_id": "string",
-    "template_id": "string"
-  }
+  "subject": "string",
+  "content": "string"
 }
 ```
 
