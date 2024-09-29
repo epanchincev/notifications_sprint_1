@@ -1,9 +1,10 @@
-from typing import Dict, Any
+from typing import Any
 
 import httpx
 
 from config.logging import get_logger
 from models.template import Template
+from templates import TemplateRenderer
 
 logger = get_logger(__name__)
 
@@ -19,8 +20,5 @@ class TemplateProcessor:
             response.raise_for_status()
             return Template(**response.json())
 
-    def render_template(self, template: Template, parameters: Dict[str, Any]) -> str:
-        content = template.content
-        for key, value in parameters.items():
-            content = content.replace(f"{{{{ {key} }}}}", str(value))
-        return content
+    def render_template(self, template_renderer: TemplateRenderer, parameters: dict[str, Any]) -> str:
+        return template_renderer.render(parameters)

@@ -1,20 +1,19 @@
 import asyncio
-from config.logging import setup_logging, get_logger
+from config.logging import get_logger
 from config.settings import settings
 from processors.notification_processor import NotificationProcessor
+from processors.template_processor import TemplateProcessor
 from services.auth_service import AuthService
 from services.consumer import RabbitMQConsumer
 from services.notification_service import NotificationService
 from services.producer import RabbitMQProducer
-from services.template_processor import TemplateProcessor
 
 logger = get_logger(__name__)
 
 
 async def main():
-    setup_logging()
-    consumer = RabbitMQConsumer(settings.rabbit_url, settings.rabbitmq_queue)
-    producer = RabbitMQProducer(settings.rabbit_url, settings.rabbitmq_queue)
+    consumer = RabbitMQConsumer(settings.rabbit_url, settings.rabbitmq_in_queue)
+    producer = RabbitMQProducer(settings.rabbit_url, settings.rabbitmq_out_queue)
     template_processor = TemplateProcessor(settings.template_service_url)
     auth_service = AuthService(settings.auth_service_url)
 

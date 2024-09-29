@@ -10,13 +10,15 @@ class Settings(BaseSettings):
     rabbitmq_port: str = '5672'
     rabbitmq_user: str = 'rabbit'
     rabbitmq_password: str = 'rabbit'
-    rabbitmq_queue: str = 'notifications'
-    logger_name: str = 'notification_processor service logger'
-    log_level: str = 'INFO'
+    rabbitmq_in_queue: str = 'notifications'
+    rabbitmq_out_queue: str = 'notification.sending'
+
     template_service_host: str = 'notifications-admin'
     template_service_port: str = 8000
-    auth_service_host: str = 'auth-service'
+    auth_service_host: str = 'fake-auth-service'
     auth_service_port: str = 8000
+
+    log_level: str = 'INFO'
 
     @property
     def rabbit_url(self):

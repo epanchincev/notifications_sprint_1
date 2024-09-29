@@ -6,6 +6,7 @@ from models.notification import Notification
 
 logger = get_logger(__name__)
 
+
 class RabbitMQConsumer:
     def __init__(self, url: str, queue_name: str):
         self.url = url
