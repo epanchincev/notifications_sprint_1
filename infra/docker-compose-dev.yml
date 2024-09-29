@@ -43,6 +43,20 @@ services:
     command: >
       sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
 
+  notifications-api:
+    build:
+      context: ../notifications_api/
+      dockerfile: Dockerfile
+    image: notifications-api
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8001:8001"
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
 volumes:
   db_volume:
   rabbit_volume: 
