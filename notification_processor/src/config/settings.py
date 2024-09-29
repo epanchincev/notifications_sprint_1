@@ -6,19 +6,19 @@ ENV_PATH = Path(__file__).resolve().parent / ".env"
 
 
 class Settings(BaseSettings):
-    rabbitmq_host: str = 'rabbit'
-    rabbitmq_port: str = '5672'
-    rabbitmq_user: str = 'rabbit'
-    rabbitmq_password: str = 'rabbit'
-    rabbitmq_in_queue: str = 'notifications'
-    rabbitmq_out_queue: str = 'notification.sending'
+    rabbitmq_host: str = "rabbit"
+    rabbitmq_port: str = "5672"
+    rabbitmq_user: str = "rabbit"
+    rabbitmq_password: str = "rabbit"
+    rabbitmq_in_queue: str = "notifications"
+    rabbitmq_out_queue: str = "notification.sending"
 
-    template_service_host: str = 'notifications-admin'
+    template_service_host: str = "notifications-admin"
     template_service_port: str = 8000
-    auth_service_host: str = 'fake-auth-service'
+    auth_service_host: str = "fake-auth-service"
     auth_service_port: str = 8000
 
-    log_level: str = 'INFO'
+    log_level: str = "INFO"
 
     @property
     def rabbit_url(self):
@@ -34,8 +34,8 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_file=ENV_PATH,
-        env_file_encoding='utf-8',
-        extra='ignore',
+        env_file_encoding="utf-8",
+        extra="ignore",
     )
 
 

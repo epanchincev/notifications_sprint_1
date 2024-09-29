@@ -20,4 +20,6 @@ class RabbitMQProducer:
         message = aio_pika.Message(body=message_body)
 
         await channel.default_exchange.publish(message, routing_key=self.queue)
-        logger.info(f"Sent processed notification: {notification.id} into {self.queue}. Message: {message.body}")
+        logger.info(
+            f"Sent processed notification: {notification.id} into {self.queue}. Message: {message.body}"
+        )

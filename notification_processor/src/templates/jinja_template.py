@@ -9,8 +9,8 @@ class JinjaTemplate(TemplateRenderer):
     def __init__(self, text: str):
         self.env: Environment = Environment(
             loader=BaseLoader(),
-            variable_start_string='%',
-            variable_end_string='%',
+            variable_start_string="%",
+            variable_end_string="%",
         )
         self.jinja_template = self.env.from_string(text)
 

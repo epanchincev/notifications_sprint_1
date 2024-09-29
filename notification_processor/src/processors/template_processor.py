@@ -20,5 +20,7 @@ class TemplateProcessor:
             response.raise_for_status()
             return Template(**response.json())
 
-    def render_template(self, template_renderer: TemplateRenderer, parameters: dict[str, Any]) -> str:
+    def render_template(
+        self, template_renderer: TemplateRenderer, parameters: dict[str, Any]
+    ) -> str:
         return template_renderer.render(parameters)

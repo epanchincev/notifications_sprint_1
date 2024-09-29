@@ -14,12 +14,17 @@ class NotificationService:
         self.processor: NotificationProcessor = processor
         self.producer: RabbitMQProducer = producer
 
-    async def process_and_send(self, notification: Notification) -> List[ProcessedNotification]:
-        processed_notifications: List[ProcessedNotification] = await self.processor.process_notification(notification)
+    async def process_and_send(
+        self, notification: Notification
+    ) -> List[ProcessedNotification]:
+        processed_notifications: List[ProcessedNotification] = (
+            await self.processor.process_notification(notification)
+        )
 
         for processed_notification in processed_notifications:
             await self.producer.produce(processed_notification)
             logger.info(
-                f"Sent processed notification: {processed_notification.id} to recipient: {processed_notification.recipient}")
+                f"Sent processed notification: {processed_notification.id} to recipient: {processed_notification.recipient}"
+            )
 
         return processed_notifications
