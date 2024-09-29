@@ -1,16 +1,11 @@
 import logging
 import aiohttp
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from core.config import settings
 from handlers.notice import INotice
 from models.notification import Notification, NotificationType
 
-env = Environment(
-    loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
-)
 
-template = env.get_template("templates/template.html")
 logger = logging.getLogger().getChild("email-handler")
 
 
@@ -23,12 +18,10 @@ class EmailNotice(INotice):
     async def processing(self, msg: Notification):
         logger.info(f"Processing message {msg}")
 
-        content = template.render(content=msg.content, metadata=msg.metadata)
-
         payload = {
             "action": "issue.send",
             "letter": {
-                "message": {"html": content},
+                "message": {"html": msg.content},
                 "subject": msg.subject,
                 "from.email": "hamidabu47@yahoo.com",
             },
