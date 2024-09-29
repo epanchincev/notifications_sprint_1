@@ -27,14 +27,14 @@ class TemplateService(ITemplateService):
     async def get_template(self, action: str) -> NotificationTemplate:
         try:
             async with httpx.AsyncClient() as client:
-                response = await client.get(f"{self.SERVICE_URL}/api/v1/admin/templates/static/{action}")
+                response = await client.get(f"{self.SERVICE_URL}/{action}")
                 if not response.status_code == 200:
                     raise BadResponseCodeTemplateService(
                         status_code=response.status_code,
                     )
 
                 # TODO: Определить схему для респонса
-                return NotificationTemplate(response.json())
+                return NotificationTemplate(**response.json())
         except BadResponseCodeTemplateService:
             raise
         except Exception as e:

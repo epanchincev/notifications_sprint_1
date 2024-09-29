@@ -10,5 +10,5 @@ class NotificationTemplate(BaseModel):
     subject: str
     content: str
     parameters: list[str]
-    id: UUID  # noqa
+    id: UUID  # noqa    
     created_at: datetime

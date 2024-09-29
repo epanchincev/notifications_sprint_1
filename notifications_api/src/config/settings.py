@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     LOGGER_NAME: str
     LOG_LEVEL: str = "INFO"
     TEMPLATE_SERVICE: str
+    TEMPLATE_SERVICE_PORT: int
 
     @property
     def rabbit_url(self) -> str:
@@ -31,7 +32,7 @@ class Settings(BaseSettings):
 
     @property
     def template_service_url(self) -> str:
-        return f"http://{self.TEMPLATE_SERVICE}:{8000}"
+        return f"http://{self.TEMPLATE_SERVICE}:{self.TEMPLATE_SERVICE_PORT}/api/v1/admin/templates/static"
 
 
 settings = Settings()

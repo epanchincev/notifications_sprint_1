@@ -23,11 +23,13 @@ class SendRegisterNotificationUseCase:
 
     async def execute(self, data: RegisterNotificationInSchema) -> tuple[UUID, NotificationStatus]:
         template = await self.template_service.get_template(action="register")
+        params = dict.fromkeys(template.parameters, "")
+
         notification = NotificationModel(
             recipients=[data.user_id],
             template_id=template.id,
             channel=data.channel,
-
+            parameters=params,
         )
         await self.producer_service.produce(message=notification)
         return notification.notification_id, NotificationStatus.QUEUED,
