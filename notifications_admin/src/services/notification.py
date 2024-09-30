@@ -127,6 +127,8 @@ class NotificationService(INotificationService):
         if notification.type != "scheduled":
             background_tasks.add_task(
                 send_notification,
+                notification_rep=self.notification_rep,
+                notification=notification,
                 body={
                     "recipients": recepients,
                     "template_id": template_id,

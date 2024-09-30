@@ -6,6 +6,7 @@ from asyncio import sleep
 
 from core.config import settings
 from core.logger import get_logger
+from repositories.notification import INotificationRepository
 
 session: ClientSession | None = None
 
@@ -13,6 +14,8 @@ logger = get_logger()
 
 
 async def send_notification(
+    notification_rep: INotificationRepository,
+    notification,
     body: dict[str, Any],
     delay_in_minutes: int | None = None,
 ) -> None:
@@ -27,7 +30,10 @@ async def send_notification(
     ) as response:
         await response.json()
 
-        if response.status != HTTPStatus.CREATED:
+        if response.status != HTTPStatus.OK:
             logger.error(
               f"Failed to send notification. Status code: {response.status}"
             )
+            return
+    await notification_rep.update_status(notification, 'sent')
+    logger.info("Notification sent successfully")
