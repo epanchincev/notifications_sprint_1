@@ -27,6 +27,26 @@ services:
     expose:
       - "5432"
 
+  fake-auth-service:
+    build:
+      context: ../fake_auth_service/
+      dockerfile: Dockerfile
+    image: fake-auth-service
+    expose:
+      - "8090"
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
+  notification_processor:
+    build:
+      context: ../notification_processor/
+      dockerfile: Dockerfile
+    image: notification_processor
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
   notifications-admin:
     build:
       context: ../notifications_admin/
