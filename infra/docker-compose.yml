@@ -12,6 +12,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
+    env_file:
+      - ./.env
 
   db:
     image: postgres:16.3-alpine3.20
@@ -26,6 +28,68 @@ services:
       retries: 10
     expose:
       - "5432"
+
+  fake-auth-service:
+    build:
+      context: ../fake_auth_service/
+      dockerfile: Dockerfile
+    image: fake-auth-service
+    expose:
+      - "8090"
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
+  notification_processor:
+    build:
+      context: ../notification_processor/
+      dockerfile: Dockerfile
+    image: notification_processor
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
+  notifications-admin:
+    build:
+      context: ../notifications_admin/
+      dockerfile: Dockerfile
+    image: notifications-admin
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
+  notifications-api:
+    build:
+      context: ../notifications_api/
+      dockerfile: Dockerfile
+    image: notifications-api
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    expose:
+      - "8001"
+    working_dir: /app
+    command: >
+      sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
+
+  notifications-worker:
+    build:
+      context: ../notifications_worker/
+      dockerfile: Dockerfile
+    image: notifications-worker
+    env_file:
+      - ./.env
+    depends_on:
+      rabbit:
+        condition: service_healthy
 
 volumes:
   db_volume:
