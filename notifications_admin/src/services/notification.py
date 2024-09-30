@@ -128,7 +128,7 @@ class NotificationService(INotificationService):
             background_tasks.add_task(
                 send_notification,
                 body={
-                    "recepients": recepients,
+                    "recipients": recepients,
                     "template_id": template_id,
                     "parameters": parameters,
                     "channel": channel,
