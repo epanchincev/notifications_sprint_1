@@ -31,7 +31,7 @@ class Settings(BaseSettings):
 
     notification_service_host: str = "notification-service"
     notification_service_port: int = 8080
-    notification_endpoint: str = "/api/v1/notifications/send"
+    notification_endpoint: str = "/api/v1/send-notification"
 
     logger_filename: str = ...
     logger_filedir: str = ...
@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     @property
     def notiification_service_url(self) -> str:
         return (f"http://{self.notification_service_host}:"
-                f"{self.notification_service_port}/"
+                f"{self.notification_service_port}"
                 f"{self.notification_endpoint}")
 
     @property
