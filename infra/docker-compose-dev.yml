@@ -57,6 +57,17 @@ services:
     command: >
       sh -c "chmod +x entrypoint.sh && ./entrypoint.sh"
 
+  notifications-worker:
+    build:
+      context: ../notifications_worker/
+      dockerfile: Dockerfile
+    image: notifications-worker
+    env_file:
+      - ./.env
+    depends_on:
+      rabbit:
+        condition: service_healthy
+
 volumes:
   db_volume:
   rabbit_volume: 
