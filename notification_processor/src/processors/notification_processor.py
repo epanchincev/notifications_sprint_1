@@ -40,8 +40,8 @@ class NotificationProcessor:
 
             processed_notifications.append(
                 ProcessedNotification(
-                    id=notification.id,
-                    type=notification.type,
+                    notification_id=notification.notification_id,
+                    channel=notification.channel,
                     recipient=recipient,
                     content=content,
                     subject=subject,

@@ -12,16 +12,16 @@ class NotificationType(str, Enum):
 
 
 class Notification(BaseModel):
-    id: UUID
-    type: NotificationType
+    notification_id: UUID
+    channel: NotificationType
     template_id: UUID
     recipients: list[UUID]
     parameters: Dict[str, str] | None = {}
 
 
 class ProcessedNotification(BaseModel):
-    id: UUID
-    type: NotificationType
+    notification_id: UUID
+    channel: NotificationType
     recipient: UUID
     content: str
     subject: Optional[str] = None

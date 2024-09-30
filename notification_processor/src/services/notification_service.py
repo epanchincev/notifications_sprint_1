@@ -24,7 +24,7 @@ class NotificationService:
         for processed_notification in processed_notifications:
             await self.producer.produce(processed_notification)
             logger.info(
-                f"Sent processed notification: {processed_notification.id} to recipient: {processed_notification.recipient}"
+                f"Sent processed notification: {processed_notification.notification_id} to recipient: {processed_notification.recipient}"
             )
 
         return processed_notifications

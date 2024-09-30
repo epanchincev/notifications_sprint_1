@@ -21,5 +21,5 @@ class RabbitMQProducer:
 
         await channel.default_exchange.publish(message, routing_key=self.queue)
         logger.info(
-            f"Sent processed notification: {notification.id} into {self.queue}. Message: {message.body}"
+            f"Sent processed notification: {notification.notification_id} into {self.queue}. Message: {message.body}"
         )
