@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     notification_service_host: str = "notification-service"
     notification_service_port: int = 8080
     notification_endpoint: str = "/api/v1/send-notification"
+    notification_auth_token: str = ''
 
     logger_filename: str = ...
     logger_filedir: str = ...

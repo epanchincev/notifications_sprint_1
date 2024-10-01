@@ -26,6 +26,9 @@ async def send_notification(
 
     async with session.post(
         url=settings.notiification_service_url,
+        headers={
+            "Authorization": f"Bearer {settings.notification_auth_token}",
+        },
         json=body,
     ) as response:
         await response.json()

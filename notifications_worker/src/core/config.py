@@ -10,9 +10,9 @@ load_dotenv()
 
 
 class RabbitMQSettings(BaseSettings):
-    user: str = Field('rabbit', alias="DEFAULT_USER")
-    password: str = Field('rabbit', alias="DEFAULT_PASS")
-    host: str = Field('rabbit')
+    user: str = Field("rabbit", alias="DEFAULT_USER")
+    password: str = Field("rabbit", alias="DEFAULT_PASS")
+    host: str = Field("rabbit")
     port: int = 5672
 
     model_config = SettingsConfigDict(env_prefix="RABBITMQ_")
