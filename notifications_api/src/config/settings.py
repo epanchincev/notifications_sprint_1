@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     TEMPLATE_SERVICE: str
     TEMPLATE_SERVICE_PORT: int
+    APP_AUTH_TOKEN: str
 
     @property
     def rabbit_url(self) -> str:

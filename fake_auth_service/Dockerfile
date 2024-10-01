@@ -8,7 +8,7 @@ WORKDIR /app
 RUN pip3 install --upgrade pip
 
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --no-cache-dir
 
 COPY . .
 
